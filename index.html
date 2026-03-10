@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flashcard Quiz App</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f4f4f4;
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-top:40px;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+.flashcard{
+background:white;
+width:400px;
+padding:25px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+#question{
+font-size:20px;
+font-weight:bold;
+}
+
+#answer{
+margin-top:15px;
+color:#333;
+display:none;
+}
+
+button{
+margin:8px;
+padding:10px 16px;
+border:none;
+background:#3498db;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2980b9;
+}
+
+.controls{
+margin-top:15px;
+}
+
+.form{
+margin-top:25px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 8px rgba(0,0,0,0.1);
+width:400px;
+}
+
+input{
+width:95%;
+padding:8px;
+margin:6px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Flashcard Quiz</h1>
+
+<div class="flashcard">
+
+<div id="question"></div>
+
+<div id="answer"></div>
+
+<button onclick="showAnswer()">Show Answer</button>
+
+<div class="controls">
+<button onclick="prevCard()">Previous</button>
+<button onclick="nextCard()">Next</button>
+</div>
+
+<div class="controls">
+<button onclick="editCard()">Edit</button>
+<button onclick="deleteCard()">Delete</button>
+</div>
+
+</div>
+
+
+<div class="form">
+
+<h3>Add Flashcard</h3>
+
+<input id="newQuestion" placeholder="Enter question">
+
+<input id="newAnswer" placeholder="Enter answer">
+
+<button onclick="addCard()">Add Card</button>
+
+</div>
+
+
+<script>
+
+let flashcards = [
+{question:"What is HTML?",answer:"HTML is the standard markup language for web pages."},
+{question:"What is CSS?",answer:"CSS styles the layout of web pages."},
+{question:"What is JavaScript?",answer:"JavaScript makes web pages interactive."}
+];
+
+let currentIndex = 0;
+
+function displayCard(){
+document.getElementById("question").innerText = flashcards[currentIndex].question;
+document.getElementById("answer").innerText = flashcards[currentIndex].answer;
+document.getElementById("answer").style.display="none";
+}
+
+function showAnswer(){
+document.getElementById("answer").style.display="block";
+}
+
+function nextCard(){
+if(currentIndex < flashcards.length-1){
+currentIndex++;
+displayCard();
+}
+}
+
+function prevCard(){
+if(currentIndex > 0){
+currentIndex--;
+displayCard();
+}
+}
+
+function addCard(){
+
+let q = document.getElementById("newQuestion").value;
+let a = document.getElementById("newAnswer").value;
+
+if(q && a){
+
+flashcards.push({question:q,answer:a});
+
+document.getElementById("newQuestion").value="";
+document.getElementById("newAnswer").value="";
+
+alert("Flashcard Added");
+
+}
+}
+
+function deleteCard(){
+
+flashcards.splice(currentIndex,1);
+
+if(currentIndex>0){
+currentIndex--;
+}
+
+displayCard();
+
+}
+
+function editCard(){
+
+let newQ = prompt("Edit Question:", flashcards[currentIndex].question);
+let newA = prompt("Edit Answer:", flashcards[currentIndex].answer);
+
+if(newQ && newA){
+
+flashcards[currentIndex].question = newQ;
+flashcards[currentIndex].answer = newA;
+
+displayCard();
+
+}
+
+}
+
+displayCard();
+
+</script>
+
+</body>
+</html>
